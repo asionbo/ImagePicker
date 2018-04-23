@@ -29,7 +29,7 @@ public class ImageItem implements Serializable, Parcelable {
     public boolean equals(Object o) {
         if (o instanceof ImageItem) {
             ImageItem item = (ImageItem) o;
-            return this.path.equalsIgnoreCase(item.path) && this.addTime == item.addTime;
+            return this.path.equalsIgnoreCase(item.path) && this.name.equals(item.name);
         }
 
         return super.equals(o);
@@ -76,4 +76,17 @@ public class ImageItem implements Serializable, Parcelable {
             return new ImageItem[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "ImageItem{" +
+                "name='" + name + '\'' +
+                ", path='" + path + '\'' +
+                ", size=" + size +
+                ", width=" + width +
+                ", height=" + height +
+                ", mimeType='" + mimeType + '\'' +
+                ", addTime=" + addTime +
+                '}';
+    }
 }

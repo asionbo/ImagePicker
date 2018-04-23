@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,6 +62,7 @@ public class ImageRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
     public void refreshData(ArrayList<ImageItem> images) {
         if (images == null || images.size() == 0) this.images = new ArrayList<>();
         else this.images = images;
+        Log.e("test-------",images.toString());
         notifyDataSetChanged();
     }
 

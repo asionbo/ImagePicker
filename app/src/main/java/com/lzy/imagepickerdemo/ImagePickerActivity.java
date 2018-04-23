@@ -156,7 +156,7 @@ public class ImagePickerActivity extends AppCompatActivity implements SeekBar.On
 
                 Intent intent = new Intent(this, ImageGridActivity.class);
                 intent.putExtra(ImageGridActivity.EXTRAS_IMAGES,images);
-                //ImagePicker.getInstance().setSelectedImages(images);
+//                ImagePicker.getInstance().setSelectedImages(images);
                 startActivityForResult(intent, 100);
                 break;
             case R.id.btn_wxDemo:
@@ -202,9 +202,17 @@ public class ImagePickerActivity extends AppCompatActivity implements SeekBar.On
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == ImagePicker.RESULT_CODE_ITEMS) {
             if (data != null && requestCode == 100) {
-                images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
-                MyAdapter adapter = new MyAdapter(images);
-                gridView.setAdapter(adapter);
+                ArrayList<ImageItem> imageList = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
+                boolean isCa = data.getBooleanExtra(ImagePicker.EXTRA_IS_CAMERA,false);
+                MyAdapter adapter1 = (MyAdapter) gridView.getAdapter();
+                if (isCa && adapter1 != null && adapter1.getData() != null){
+                    adapter1.getData().addAll(imageList);
+                    adapter1.notifyDataSetChanged();
+                }else{
+                    images = imageList;
+                    MyAdapter adapter = new MyAdapter(images);
+                    gridView.setAdapter(adapter);
+                }
             } else {
                 Toast.makeText(this, "没有数据", Toast.LENGTH_SHORT).show();
             }
@@ -224,6 +232,10 @@ public class ImagePickerActivity extends AppCompatActivity implements SeekBar.On
         public void setData(List<ImageItem> items) {
             this.items = items;
             notifyDataSetChanged();
+        }
+
+        public List<ImageItem> getData(){
+            return items;
         }
 
         @Override

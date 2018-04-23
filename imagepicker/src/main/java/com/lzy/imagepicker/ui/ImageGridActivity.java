@@ -172,6 +172,7 @@ public class ImageGridActivity extends ImageBaseActivity implements ImageDataSou
         if (id == R.id.btn_ok) {
             Intent intent = new Intent();
             intent.putExtra(ImagePicker.EXTRA_RESULT_ITEMS, imagePicker.getSelectedImages());
+            intent.putExtra(ImagePicker.EXTRA_IS_CAMERA,false);
             setResult(ImagePicker.RESULT_CODE_ITEMS, intent);  //多选不允许裁剪裁剪，返回数据
             finish();
         } else if (id == R.id.ll_dir) {
@@ -275,6 +276,7 @@ public class ImageGridActivity extends ImageBaseActivity implements ImageDataSou
             } else {
                 Intent intent = new Intent();
                 intent.putExtra(ImagePicker.EXTRA_RESULT_ITEMS, imagePicker.getSelectedImages());
+                intent.putExtra(ImagePicker.EXTRA_IS_CAMERA,true);
                 setResult(ImagePicker.RESULT_CODE_ITEMS, intent);   //单选不需要裁剪，返回数据
                 finish();
             }
@@ -323,6 +325,7 @@ public class ImageGridActivity extends ImageBaseActivity implements ImageDataSou
                     //什么都不做 直接调起相机
                 } else {
                     //说明是从裁剪页面过来的数据，直接返回就可以
+                    data.putExtra(ImagePicker.EXTRA_IS_CAMERA,true);
                     setResult(ImagePicker.RESULT_CODE_ITEMS, data);
                 }
                 finish();
@@ -337,6 +340,7 @@ public class ImageGridActivity extends ImageBaseActivity implements ImageDataSou
                  * 2017-03-21 对机型做旋转处理
                  */
                 String path = imagePicker.getTakeImageFile().getAbsolutePath();
+                String name = imagePicker.getTakeImageFile().getName();
 //                int degree = BitmapUtil.getBitmapDegree(path);
 //                if (degree != 0){
 //                    Bitmap bitmap = BitmapUtil.rotateBitmapByDegree(path,degree);
@@ -355,6 +359,7 @@ public class ImageGridActivity extends ImageBaseActivity implements ImageDataSou
 
                 ImageItem imageItem = new ImageItem();
                 imageItem.path = path;
+                imageItem.name = name;
                 imagePicker.clearSelectedImages();
                 imagePicker.addSelectedImageItem(0, imageItem, true);
                 if (imagePicker.isCrop()) {
@@ -363,6 +368,7 @@ public class ImageGridActivity extends ImageBaseActivity implements ImageDataSou
                 } else {
                     Intent intent = new Intent();
                     intent.putExtra(ImagePicker.EXTRA_RESULT_ITEMS, imagePicker.getSelectedImages());
+                    intent.putExtra(ImagePicker.EXTRA_IS_CAMERA,true);
                     setResult(ImagePicker.RESULT_CODE_ITEMS, intent);   //单选不需要裁剪，返回数据
                     finish();
                 }
